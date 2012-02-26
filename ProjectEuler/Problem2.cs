@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Diagnostics;
 
 namespace ProjectEuler
 {
-    class Problem3 : IProblem
+    class Problem2 : IProblem
     {
-        private const long Number = 600851475143;        
+        private const int Max = 4000000;        
 
         public string Name
         {
-            get { return "Problem 3"; }
+            get { return "Problem 2"; }
         }
 
         public string Description
@@ -20,42 +19,32 @@ namespace ProjectEuler
             get
             {
                 return
-                    "What is the largest prime factor of the number 600851475143.";
+                    "By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.";
             }
         }
 
         public string Execute()
         {
-            
-            Enumerable
-                .Range(10,25)
-                .ForEach(v=>Debug.WriteLine(v + ":" + MaxPrime(v)));
-            return MaxPrime(Number).ToString();            
+            return NextFib()
+                .Where(val => val%2 == 0)
+                .Sum()
+                .ToString();
         }
 
-        private long MaxPrime(long number)
+        private IEnumerable<int> NextFib()
         {
-            return PrimesDescending(number).First();
-        }
-
-        private IEnumerable<long> PrimesDescending(long number)
-        {
-            var maxCheck = MaxCheck(number);
-
-            while (maxCheck > 0)
+            var last = 0;
+            var val = 1;
+            var next = last + val;
+            while (next < Max)
             {
-                var nextValue = maxCheck--;
-                if (nextValue == 1)
-                    yield return number;
+                last = val;
+                val = next;
+                yield return val;
 
-                if (number % nextValue == 0 && PrimesDescending(nextValue).First() == nextValue)
-                    yield return nextValue;
+                next = last + val;
             }
+                
         }
-
-        private long MaxCheck(long number)
-        {
-            return (long)Math.Ceiling(number/2d);
-        }        
     }
 }
