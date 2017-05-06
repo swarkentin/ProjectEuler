@@ -12,10 +12,13 @@ namespace ProjectEuler
         {
             new IProblem[]
                 {
+                    /*
                     new Problem1(),
                     new Problem2(),
                     new Problem3(),
                     new Problem4()
+                    */
+                    new Problem5()
                 }
                 .ForEach(Execute);
         }
